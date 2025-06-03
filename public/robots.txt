@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://github.com/hackerbikram/tech.git
+
+# Sitemaps
+Sitemap: https://github.com/hackerbikram/tech.git/sitemap.xml
