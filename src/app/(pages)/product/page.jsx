@@ -85,12 +85,12 @@ export default function ProductPage() {
           placeholder="Search products..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          className="w-full md:w-1/2 p-3 rounded-lg shadow-md border border-purple-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          className="text-black w-full md:w-1/2 p-3 rounded-lg shadow-md border border-purple-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
         />
         <select
           value={selectedCategory}
           onChange={e => setSelectedCategory(e.target.value)}
-          className="w-full md:w-1/4 p-3 rounded-lg shadow-md border border-purple-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          className="text-black w-full md:w-1/4 p-3 rounded-lg shadow-md border border-purple-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
         >
           <option value="All">All Categories</option>
           {categories.map(cat => (
