@@ -1,41 +1,43 @@
-"use client";
+'use client';
+
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    image: "/public/headphones.jpeg", // ✅ correct usage
-    description: "Crystal-clear sound and long battery life.",
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 149.99,
-    image: "/public/smartwatch.jpeg",
-    description: "Track your health and notifications in style.",
-  },
-  {
-    id: 3,
-    name: "Gaming Mouse",
-    price: 59.99,
-    image: "/public/mouse.jpeg",
-    description: "Precision and speed for competitive gaming.",
-  },
-  {
-    id: 4,
-    name: "Bluetooth Speaker",
-    price: 79.99,
-    image: "/public/speaker.jpeg",
-    description: "Portable sound with deep bass.",
-  },
+// Example categories
+const categories = [
+  "Tech",
+  "Fashion",
+  "Hardware",
+  "Science",
+  "Daily Use"
 ];
+
+// Generate 200+ products sample
+const products = Array.from({ length: 200 }, (_, i) => {
+  const category = categories[i % categories.length];
+  return {
+    id: i + 1,
+    name: `${category} Product ${i + 1}`,
+    price: (Math.random() * 500 + 10).toFixed(2),
+    category,
+    image: `/products/${category.toLowerCase()}${(i % 5) + 1}.jpeg`, // Example images you can replace
+    description: `High-quality ${category.toLowerCase()} item number ${i + 1}.`,
+  };
+});
 
 export default function ProductPage() {
   const [cart, setCart] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [searchTerm, selectedCategory]);
 
   const addToCart = (id) => {
     if (!cart.includes(id)) {
@@ -43,62 +45,112 @@ export default function ProductPage() {
     }
   };
 
-  let cartItems = products.filter((product) => cart.includes(product.id));
-  let total = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const cartItems = products.filter(product => cart.includes(product.id));
+  const total = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
 
   return (
-    <div className="p-6 bg-gradient-to-br from-purple-200 to-indigo-100 min-h-screen">
-      <h1 className="text-4xl font-bold text-center mb-8 text-indigo-800">🛍️ Product Showcase</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 to-indigo-100 p-6">
+      <h1 className="text-4xl font-extrabold text-center mb-8 text-indigo-900 tracking-wide">🛍️ Ultimate Product Showcase</h1>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: product.id * 0.1 }}
-            className="bg-white rounded-2xl shadow-xl p-4 hover:scale-105 transition-transform duration-300 border border-gray-200"
-          >
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={400}
-              height={400}
-              className="rounded-xl object-cover w-full h-64"
-            />
-            <h2 className="text-xl font-semibold mt-4 text-indigo-700">{product.name}</h2>
-            <p className="text-sm text-gray-600">{product.description}</p>
-            <div className="mt-3 text-lg font-bold text-indigo-900">${product.price.toFixed(2)}</div>
-            <button
-              className="mt-4 bg-indigo-500 text-white py-2 px-4 rounded-full hover:bg-indigo-600 transition-all"
-              onClick={() => addToCart(product.id)}
-            >
-              {cart.includes(product.id) ? "Added ✅" : "Add to Cart"}
-            </button>
-          </motion.div>
-        ))}
+      {/* Search and Category Filter */}
+      <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto mb-8 gap-4">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          className="w-full md:w-1/2 p-3 rounded-lg shadow-md border border-gray-300 focus:outline-indigo-500 focus:ring-2 focus:ring-indigo-300 transition"
+        />
+
+        <select
+          className="w-full md:w-1/4 p-3 rounded-lg shadow-md border border-gray-300 focus:outline-indigo-500 focus:ring-2 focus:ring-indigo-300 transition"
+          value={selectedCategory}
+          onChange={e => setSelectedCategory(e.target.value)}
+        >
+          <option value="All">All Categories</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
       </div>
 
-      <div className="mt-12 bg-white p-6 rounded-2xl shadow-2xl max-w-2xl mx-auto border-t-4 border-indigo-400">
-        <h2 className="text-2xl font-bold text-indigo-800 mb-4">🛒 Cart Summary</h2>
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        {filteredProducts.length === 0 ? (
+          <p className="text-center text-gray-600 col-span-full">No products found.</p>
+        ) : (
+          filteredProducts.map(product => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: (product.id % 10) * 0.05 }}
+              className="bg-white rounded-2xl shadow-lg p-4 flex flex-col hover:scale-[1.04] hover:shadow-xl transition-transform duration-300 border border-gray-200"
+            >
+              <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-gray-100">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw,
+                         (max-width: 1200px) 50vw,
+                         33vw"
+                  priority={product.id <= 10} // Priority load top products
+                  className="rounded-xl"
+                />
+              </div>
+              <h3 className="text-lg font-semibold text-indigo-800 mb-1 truncate" title={product.name}>{product.name}</h3>
+              <p className="text-sm text-gray-600 flex-grow">{product.description}</p>
+              <div className="mt-3 font-bold text-indigo-900 text-lg">${product.price}</div>
+              <button
+                className={`mt-4 py-2 rounded-full text-white font-semibold transition-colors ${
+                  cart.includes(product.id)
+                    ? "bg-green-500 cursor-default"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+                onClick={() => addToCart(product.id)}
+                disabled={cart.includes(product.id)}
+              >
+                {cart.includes(product.id) ? "Added ✅" : "Add to Cart"}
+              </button>
+            </motion.div>
+          ))
+        )}
+      </div>
+
+      {/* Cart Summary */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mt-12 max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl p-6 border-t-4 border-indigo-500"
+      >
+        <h2 className="text-3xl font-bold text-indigo-900 mb-5 flex items-center gap-3">
+          🛒 Cart Summary
+          <span className="bg-indigo-500 text-white rounded-full px-3 py-1 text-sm font-semibold">
+            {cart.length}
+          </span>
+        </h2>
+
         {cartItems.length === 0 ? (
-          <p className="text-gray-500">Your cart is empty.</p>
+          <p className="text-gray-500 text-center">Your cart is empty.</p>
         ) : (
           <>
-            <ul className="space-y-2">
-              {cartItems.map((item) => (
-                <li key={item.id} className="flex justify-between text-gray-800">
+            <ul className="divide-y divide-gray-200 max-h-72 overflow-y-auto mb-4">
+              {cartItems.map(item => (
+                <li key={item.id} className="flex justify-between py-3 text-gray-800 font-medium">
                   <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
+                  <span>${parseFloat(item.price).toFixed(2)}</span>
                 </li>
               ))}
             </ul>
-            <div className="mt-4 font-bold text-indigo-900">
+            <div className="text-right text-2xl font-extrabold text-indigo-900">
               Total: ${total.toFixed(2)}
             </div>
           </>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

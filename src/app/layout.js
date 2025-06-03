@@ -42,6 +42,14 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content="Bikram's Universe | Study • Shop • Create" />
         <meta name="twitter:description" content="Join Bikram in exploring language learning and amazing tech tools." />
         <meta name="twitter:image" content="/images/og-banner.jpg" />
+        <title>Bikram's Study Hub - Learn Programming, Japanese & More</title>
+        <meta name="description" content="Bikram's learning hub for programming, Japanese, hardware, and languages." />
+        <meta name="keywords" content="Bikram, programming, Japanese learning, hardware, typing practice" />
+        <meta property="og:title" content="Bikram's Study Hub" />
+        <meta property="og:description" content="Learn programming, Japanese, hardware, and more with Bikram's Study Hub." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://tech-two-kohl.vercel.app/" />
+        <meta property="og:image" content="https://tech-two-kohl.vercel.app/-image.png" />
 
         <link rel="canonical" href="https://github.com/hackerbikram/tech.git" />
         <link rel="icon" href="/bikram.png" />
