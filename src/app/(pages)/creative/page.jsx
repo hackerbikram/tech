@@ -1,21 +1,18 @@
 'use client';
-import dynamic from "next/dynamic";
 import React, { useState } from 'react';
-import { Coffee } from 'lucide-react';
 import CoffeeMechine from '@/components/cofee';
 import SolarSystem from "@/components/solar-system";
 import EarthGlobe from '@/components/earth'
 import SpaceComponent from '@/components/spacecomp'
-
 
 function Page() {
   const [showMenu, setShowMenu] = useState(false);
   const [active, setActive] = useState(null);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-mono">
+    <div className="relative min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-mono overflow-x-hidden">
       {/* Top Right Menu Button */}
-      <div className="absolute top-4 right-4 z-50">
+      <div className="fixed top-4 right-4 z-50">
         <button
           onClick={() => setShowMenu(!showMenu)}
           className="p-2 bg-white/90 rounded-full shadow-lg hover:bg-yellow-300 transition"
@@ -35,7 +32,7 @@ function Page() {
 
       {/* Slide-out Menu */}
       {showMenu && (
-        <div className="absolute top-20 right-4 bg-black/80 backdrop-blur-sm rounded-lg shadow-lg p-4 space-y-2 z-40 border border-white/10 w-48">
+        <div className="fixed top-20 right-4 bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-4 space-y-2 z-40 border border-white/10 w-48">
           <button onClick={() => setActive(null)} className="menu-btn">🏠 Home</button>
           <button onClick={() => setActive('space')} className="menu-btn">📚 Space</button>
           <button onClick={() => setActive('solarsystem')} className="menu-btn">🪐 Solar System</button>
@@ -44,34 +41,36 @@ function Page() {
         </div>
       )}
 
-      {/* Content Section */}
-      <div className="mt-32 px-6">
+      {/* Main Content */}
+      <div className="mt-24 px-4 sm:px-6 lg:px-12 pb-12">
         {active === null && (
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-purple-400 animate-pulse">Welcome to the Creative World</h1>
-            <div className="mt-8 bg-purple-900/60 p-6 rounded-2xl shadow-lg">
-              <p className="text-xl mb-4">Here we explore endless creativity!</p>
-              <div className="text-9xl animate-bounce">🐉</div>
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-400 animate-pulse">
+              Welcome to the Creative World
+            </h1>
+            <div className="mt-8 bg-purple-900/60 p-6 sm:p-8 rounded-2xl shadow-lg">
+              <p className="text-lg sm:text-xl mb-4">Here we explore endless creativity!</p>
+              <div className="text-6xl sm:text-8xl md:text-9xl animate-bounce">🐉</div>
             </div>
           </div>
         )}
 
         {active === 'space' && (
-         < SpaceComponent />
+          <div className="max-w-screen overflow-hidden">
+            <SpaceComponent />
+          </div>
         )}
 
         {active === 'solarsystem' && (
-         <main className="h-screen w-full bg-black">
-      <SolarSystem />
-    </main>
+          <div className="w-full h-[80vh] md:h-screen">
+            <SolarSystem />
+          </div>
         )}
 
         {active === 'earth' && (
-          <main style={{width: '50vw',height:'50vh'}}>< EarthGlobe 
-          showMoon={true}
-          showMarkers={true}/>
-
-          </main>
+          <div className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] md:h-[500px]">
+            <EarthGlobe showMoon={true} showMarkers={true} />
+          </div>
         )}
 
         {active === 'cofee' && (
