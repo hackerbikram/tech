@@ -1,29 +1,30 @@
 'use client';
-
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
-// Categories
-const categories = ["Tech", "Fashion", "Hardware", "Science", "Daily Use"];
-
-// 200+ Products
-const products = Array.from({ length: 200 }, (_, i) => {
-  const category = categories[i % categories.length];
-  return {
-    id: i + 1,
-    name: `${category} Product ${i + 1}`,
-    price: (Math.random() * 500 + 10).toFixed(2),
-    category,
-    image: `/products/${category.toLowerCase()}${(i % 5) + 1}.jpeg`,
-    description: `High-quality ${category.toLowerCase()} item number ${i + 1}.`,
-  };
-});
-
 export default function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Fetch products and categories from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/product');
+        const data = await res.json();
+        setProducts(data.products || []);
+        setCategories(data.categories || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -31,7 +32,7 @@ export default function ProductPage() {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [searchTerm, selectedCategory, products]);
 
   const addToCart = (id) => {
     if (!cart.includes(id)) {
@@ -46,7 +47,7 @@ export default function ProductPage() {
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-indigo-100 p-4">
       <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-6 text-indigo-900 tracking-wide">🛍️ Ultimate Product Showcase</h1>
 
-      {/* Cart Summary (on mobile shown first) */}
+      {/* Cart Summary (Mobile) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -78,7 +79,7 @@ export default function ProductPage() {
         )}
       </motion.div>
 
-      {/* Search and Category Filter */}
+      {/* Search and Filter */}
       <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto mb-6 gap-3">
         <input
           type="text"
@@ -99,7 +100,7 @@ export default function ProductPage() {
         </select>
       </div>
 
-      {/* Products Grid */}
+      {/* Product Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
         {filteredProducts.length === 0 ? (
           <p className="text-center text-gray-600 col-span-full">No products found.</p>
@@ -141,7 +142,7 @@ export default function ProductPage() {
         )}
       </div>
 
-      {/* Cart Summary for desktop */}
+      {/* Desktop Cart Summary */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
