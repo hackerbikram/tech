@@ -1,5 +1,5 @@
 "use client";
-import chat from '@/components/chat';
+import ChatPage from '@/components/chat';
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -110,7 +110,7 @@ export default function ContactPage() {
           {copied && <span className="text-sm text-green-300">[Copied!]</span>}
         </p>
         {msg === 'chaton' && (
-          <chat />
+          <ChatPage />
         )}
       </div>
 
