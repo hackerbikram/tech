@@ -1,10 +1,12 @@
 "use client";
+import chat from '@/components/chat';
 
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
+  const [msg,ssetmsg] = useState(null);
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
@@ -25,6 +27,11 @@ export default function ContactPage() {
       >
         Get in Touch
       </motion.h1>
+      <motion.button
+        className="mb-4 px-6 py-2 bg-purple-600 hover:bg-purple-700 transition rounded-lg font-semibold text-white shadow-md glow-btn"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => ssetmsg('chaton')}>chat</motion.button>
 
       <p className="text-gray-300 max-w-xl text-center mb-10">
         We'd love to hear from you! Whether it's a project idea, feedback, or collaboration —
@@ -102,6 +109,9 @@ export default function ContactPage() {
           </span>{" "}
           {copied && <span className="text-sm text-green-300">[Copied!]</span>}
         </p>
+        {msg === 'chaton' && (
+          <chat />
+        )}
       </div>
 
       <style jsx>{`
