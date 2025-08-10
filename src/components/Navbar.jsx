@@ -30,6 +30,7 @@ export default function Navbar() {
     { name: 'About', path: '/about', icon: <Info size={18} /> },
     { name: 'Product', path: '/product', icon: <ShoppingCart size={18} /> },
     { name: 'Video', path: '/video', icon: <Video size={18} /> },
+    {name: 'Dashboard' ,path: '/dashboard',icon:""}
   ];
 
   return (

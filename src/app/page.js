@@ -2,7 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaYoutube, FaFacebookF, FaTiktok } from "react-icons/fa";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import AnalyticsTracker from '@/components/tracker.jsx';
+import { Component } from "lucide-react";
 export default function Page() {
+  
   return (
     <>
       <main className="bg-gradient-to-br from-purple-50 to-blue-100 min-h-screen text-gray-800 px-4 md:px-10">
@@ -74,6 +79,10 @@ export default function Page() {
               <FaTiktok />
             </a>
           </div>
+        </section>
+        <section className="text-center py-16">
+          <AnalyticsTracker />
+          <Component {...pageProps} />
         </section>
           
         {/* FOOTER */}

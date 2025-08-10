@@ -1,7 +1,9 @@
 "use client";
 
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Resume from '../../../components/resume';
 
 export default function AboutPage() {
   const [showMore, setShowMore] = useState(false);
@@ -19,6 +21,10 @@ export default function AboutPage() {
       >
         About <span className="text-purple-400">Us</span>
       </motion.h1>
+      <button onClick={()=>{
+        return (<Resume/>)
+      }}
+      className="rounded-2xl bg-blue-500 text-white p-4 m-3">Resume</button>
 
       <p className="max-w-3xl text-center text-lg sm:text-xl text-gray-200 mb-10 leading-relaxed">
         We craft beautiful web experiences with modern tech and unique style.
