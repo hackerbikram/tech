@@ -102,7 +102,7 @@ export default function EarthGlobe() {
     >
       <Canvas
         camera={{ position: [0, 0, 3], fov: 45, near: 0.1, far: 1000 }}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
+        gl={{ antialias: true, powerPreference: "high-performance", outputEncoding: THREE.sRGBEncoding }}
         resize={{ scroll: false }}
       >
         {/* Lighting */}

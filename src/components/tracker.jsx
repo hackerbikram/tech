@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-function AnalyticsTracker() {
+export default function AnalyticsTracker() {
   const router = useRouter();
 
   useEffect(() => {

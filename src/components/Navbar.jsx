@@ -15,22 +15,27 @@ import {
   Menu,
   X,
   Video,
+  ShieldCheck,
+  LayoutDashboard,
 } from 'lucide-react';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const iconSize = 18; // one place to control icon size for all devices
+
   const navItems = [
-    { name: 'Home', path: '/', icon: <TerminalSquare size={18} /> },
-    { name: 'Study', path: '/study', icon: <BookOpen size={18} /> },
-    { name: 'Tech', path: '/tech', icon: <Cpu size={18} /> },
-    { name: 'Creative', path: '/creative', icon: <Brush size={18} /> },
-    { name: 'Contact', path: '/contact', icon: <Phone size={18} /> },
-    { name: 'About', path: '/about', icon: <Info size={18} /> },
-    { name: 'Product', path: '/product', icon: <ShoppingCart size={18} /> },
-    { name: 'Video', path: '/video', icon: <Video size={18} /> },
-    {name: 'Dashboard' ,path: '/dashboard',icon:""}
+    { name: 'Home', path: '/', icon: <TerminalSquare size={iconSize} /> },
+    { name: 'Study', path: '/study', icon: <BookOpen size={iconSize} /> },
+    { name: 'Tech', path: '/tech', icon: <Cpu size={iconSize} /> },
+    { name: 'Creative', path: '/creative', icon: <Brush size={iconSize} /> },
+    { name: 'Contact', path: '/contact', icon: <Phone size={iconSize} /> },
+    { name: 'About', path: '/about', icon: <Info size={iconSize} /> },
+    { name: 'Product', path: '/product', icon: <ShoppingCart size={iconSize} /> },
+    { name: 'Video', path: '/video', icon: <Video size={iconSize} /> },
+    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={iconSize} /> },
+    { name: 'Cyber Security', path: '/cybersecurity', icon: <ShieldCheck size={iconSize} /> },
   ];
 
   return (
@@ -76,7 +81,7 @@ export default function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          {menuOpen ? <X /> : <Menu />}
+          {menuOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 

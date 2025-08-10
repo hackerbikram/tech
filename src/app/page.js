@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaYoutube, FaFacebookF, FaTiktok } from "react-icons/fa";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import AnalyticsTracker from '@/components/tracker.jsx';
-import { Component } from "lucide-react";
+import { useRouter } from "next/router";// <- use named import if tracker exports named
+// import { SomeIcon } from "lucide-react"; // only if you want to use icons from lucide-react
+
 export default function Page() {
   
   return (
@@ -79,12 +79,7 @@ export default function Page() {
               <FaTiktok />
             </a>
           </div>
-        </section>
-        <section className="text-center py-16">
-          <AnalyticsTracker />
-          <Component {...pageProps} />
-        </section>
-          
+        </section>   
         {/* FOOTER */}
         <footer className="text-center mt-16 text-sm text-gray-500 py-4">
           &copy; {new Date().getFullYear()} Bikram Khadka. All rights reserved.
